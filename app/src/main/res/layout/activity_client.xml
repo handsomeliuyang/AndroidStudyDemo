@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/bind_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BIND"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="15dip"/>
+
+    <Button
+        android:id="@+id/unbind_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UNBIND"
+        app:layout_constraintLeft_toRightOf="@id/bind_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="15dip"
+        />
+
+    <Button
+        android:id="@+id/kill_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KILL"
+        app:layout_constraintLeft_toRightOf="@id/unbind_btn"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="15dip"/>
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
