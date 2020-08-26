@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import java.util.concurrent.atomic.AtomicReference
 
 const val TAG = "BinderSimple"
 
