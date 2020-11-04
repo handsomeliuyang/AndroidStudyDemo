@@ -2,9 +2,8 @@ package com.ly.studydemo
 
 import android.app.Application
 import android.content.Context
-import android.os.Debug
 
-class LyApplication : Application() {
+class StudyDemosApplication : Application() {
 
     companion object {
         private var application: Application? = null
@@ -18,7 +17,7 @@ class LyApplication : Application() {
 
 //        Debug.waitForDebugger()
 
-        LyApplication.application = this
+        application = this
 
 
 

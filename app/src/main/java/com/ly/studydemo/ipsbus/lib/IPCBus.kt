@@ -3,7 +3,7 @@ package com.ly.studydemo.ipsbus.lib
 import android.os.IBinder
 import android.os.RemoteException
 import androidx.core.app.BundleCompat
-import com.ly.studydemo.LyApplication
+import com.ly.studydemo.StudyDemosApplication
 import com.ly.studydemo.ipsbus.IServiceFetcher
 import java.lang.reflect.Proxy
 
@@ -25,6 +25,7 @@ object IPCBus {
     /**
      * 此方法只会在客户端进程访问
      */
+    @Suppress("UNCHECKED_CAST")
     fun <T> get(interfaceClass: Class<*>): T? {
         val serverInterface = ServerInterface(interfaceClass)
         // 通过AIDL:IServiceFetcher获取服务器注册的Binder对象
@@ -56,7 +57,7 @@ object IPCBus {
         if(!isBinderAlive) {
             synchronized(IPCBus::class.java) {
 
-                val response = ProviderCall.Builder(LyApplication.getContext(), "com.ly.studydemo.virtual.service.BinderProvider")
+                val response = ProviderCall.Builder(StudyDemosApplication.getContext(), "com.ly.studydemo.virtual.service.BinderProvider")
                     .methodName("@")
                     .call()
 
