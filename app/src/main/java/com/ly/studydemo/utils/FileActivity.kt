@@ -1,14 +1,14 @@
-package com.ly.studydemo
+package com.ly.studydemo.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.os.EnvironmentCompat
+import com.ly.studydemo.R
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
@@ -44,10 +44,10 @@ class FileActivity : Activity(), View.OnClickListener {
     }
 
     private fun sdcardHandle() {
-        val file: File = File(this@FileActivity.externalCacheDir, "test.txt")
+        val file = File(this@FileActivity.externalCacheDir, "test.txt")
 
         val fos = FileOutputStream(file)
-        val writer: OutputStreamWriter = OutputStreamWriter(fos, "UTF-8")
+        val writer = OutputStreamWriter(fos, "UTF-8")
 
         writer.append("你好")
 
@@ -70,6 +70,7 @@ class FileActivity : Activity(), View.OnClickListener {
         updateResult()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateResult() {
         resultTextView?.text = "${initData} \n sp=${spData} \n"
     }

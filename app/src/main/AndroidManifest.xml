@@ -15,18 +15,41 @@
         <activity android:name=".StudyDemos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".binder.ClientActivity" />
+        <activity android:name=".binder.ClientActivity"
+            android:label="Binder/AIDL例子">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
 
-        <activity android:name=".FileActivity"/>
+        <activity android:name=".utils.FileActivity"
+            android:label="工具类/文件目录">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
 
-        <activity android:name=".ipsbus.IPCBusActivity"/>
+        <activity android:name=".ipsbus.IPCBusActivity"
+            android:label="Binder/IPC总线">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
 
-        <activity android:name=".retrofit.RetrofitActivity"/>
+        <activity android:name=".retrofit.RetrofitActivity"
+            android:label="Retrofit/如何区分业务线">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
 
         <provider
             android:authorities="${applicationId}.virtual.service.BinderProvider"
