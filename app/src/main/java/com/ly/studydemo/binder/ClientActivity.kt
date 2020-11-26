@@ -96,7 +96,7 @@ class ClientActivity : Activity(), View.OnClickListener {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             mRemoteService = IRemoteService.Stub.asInterface(service)
 
-            var pidInfo: String = ""
+            var pidInfo = ""
             try {
                 val myData: MyData? = mRemoteService?.myData
                 pidInfo= "pid= ${mRemoteService?.pid}, data1=${myData?.data1}, data2=${myData?.data2}"

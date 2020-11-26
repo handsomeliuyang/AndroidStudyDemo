@@ -12,56 +12,89 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".StudyDemos">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".binder.ClientActivity"
+        <activity
+            android:name=".binder.ClientActivity"
             android:label="Binder/AIDL例子">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.SAMPLE_CODE"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".utils.FileActivity"
+        <activity
+            android:name=".utils.FileActivity"
             android:label="工具类/文件目录">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.SAMPLE_CODE"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ipsbus.IPCBusActivity"
+        <activity
+            android:name=".ipsbus.IPCBusActivity"
             android:label="Binder/IPC总线">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.SAMPLE_CODE"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".retrofit.RetrofitActivity"
+        <activity
+            android:name=".retrofit.RetrofitActivity"
             android:label="Retrofit/如何区分业务线">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.SAMPLE_CODE"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".coordinator.FloatingActionActivity"
+            android:label="Coordinator/Floating Action Button">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".vpn.VPNCaptureActivity"
+            android:label="NIO/Java NIO Server">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".tcpip.RequestActivity"
+            android:label="TCP IP/请求Demo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
         <provider
-            android:authorities="${applicationId}.virtual.service.BinderProvider"
             android:name=".ipsbus.BinderProvider"
+            android:authorities="${applicationId}.virtual.service.BinderProvider"
             android:exported="false"
-            android:process=":x"/>
+            android:process=":x" />
 
-        <service android:name=".binder.RemoteService"
-            android:process=":remote"
-            android:exported="false">
+        <service
+            android:name=".binder.RemoteService"
+            android:exported="false"
+            android:process=":remote">
             <intent-filter>
-                <action android:name="com.ly.studydemo.binder.IRemoteService"/>
+                <action android:name="com.ly.studydemo.binder.IRemoteService" />
             </intent-filter>
         </service>
     </application>
