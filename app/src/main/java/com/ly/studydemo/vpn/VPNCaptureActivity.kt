@@ -10,7 +10,7 @@ class VPNCaptureActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_javanio)
+        setContentView(R.layout.activity_sslnio)
 
         findViewById<Button>(R.id.start_server_btn).setOnClickListener(this)
         findViewById<Button>(R.id.start_client_btn).setOnClickListener(this)
