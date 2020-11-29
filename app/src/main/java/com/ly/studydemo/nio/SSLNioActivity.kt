@@ -36,7 +36,7 @@ class SSLNioActivity : AppCompatActivity(), View.OnClickListener {
     private fun startNioSslServer() {
         Thread(Runnable {
             try {
-                mNioSslServer = NioSslServer("TLS", "localhost", 9222)
+                mNioSslServer = NioSslServer(this,"TLSv1.2", "localhost", 9222)
                 mNioSslServer?.start()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -47,10 +47,10 @@ class SSLNioActivity : AppCompatActivity(), View.OnClickListener {
     private fun startNioSSL() {
         Thread(Runnable {
 
-            val host = "bj.58.com"
+            val host = "bj.58.com"//"www.baidu.com"
             val path = "/"
 
-            val client = NioSslClient("TLS", host, 443)
+            val client = NioSslClient(this,"TLSv1.2", host, 443)
             client.connect()
 
             val request = "GET ${path} HTTP/1.1\r\n" + // 请求行

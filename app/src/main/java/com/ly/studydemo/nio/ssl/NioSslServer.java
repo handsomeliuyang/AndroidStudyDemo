@@ -1,5 +1,7 @@
 package com.ly.studydemo.nio.ssl;
 
+import android.content.Context;
+
 import com.ly.studydemo.utils.DemoLog;
 
 import java.io.IOException;
@@ -29,12 +31,12 @@ public class NioSslServer extends NioSslPeer {
 
     private Selector selector;
 
-    public NioSslServer(String protocol, String hostAddress, int port) throws Exception {
+    public NioSslServer(Context androidContext, String protocol, String hostAddress, int port) throws Exception {
 
         context = SSLContext.getInstance(protocol);
         context.init(null, null, null);
-//        context.init(createKeyManagers("./src/main/resources/server.jks", "storepass", "keypass"),
-//                createTrustManagers("./src/main/resources/trustedCerts.jks", "storepass"),
+//        context.init(createKeyManagers(androidContext, "server.jks", "storepass", "keypass"),
+//                null,
 //                new SecureRandom());
 
         SSLSession dummySession = context.createSSLEngine().getSession();

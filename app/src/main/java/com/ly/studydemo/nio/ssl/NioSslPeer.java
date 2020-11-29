@@ -1,5 +1,8 @@
 package com.ly.studydemo.nio.ssl;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
 import com.ly.studydemo.utils.DemoLog;
 
 import java.io.FileInputStream;
@@ -21,7 +24,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 public abstract class NioSslPeer {
 
-    private static final String TAG = NioSslPeer.class.getSimpleName();
+    private final String TAG = this.getClass().getSimpleName();
 
     protected ByteBuffer myAppData;
     protected ByteBuffer myNetData;
@@ -44,15 +47,13 @@ public abstract class NioSslPeer {
 
         SSLEngineResult.HandshakeStatus handshakeStatus = engine.getHandshakeStatus();
 
-        DemoLog.INSTANCE.d(TAG,"About to do handshake...  handshakeStatus=" + handshakeStatus);
+        DemoLog.INSTANCE.d(TAG,"About to do handshake 00000  handshakeStatus=" + handshakeStatus);
 
         while (handshakeStatus != SSLEngineResult.HandshakeStatus.FINISHED && handshakeStatus != SSLEngineResult.HandshakeStatus.NOT_HANDSHAKING) {
-
-            DemoLog.INSTANCE.d(TAG,"About to do handshake... handshakeStatus=" + handshakeStatus);
-
             switch (handshakeStatus) {
                 case NEED_UNWRAP:
-                    if (socketChannel.read(peerNetData) < 0) {
+                    int read = 0;
+                    if ((read = socketChannel.read(peerNetData)) < 0) {
                         if (engine.isInboundDone() && engine.isOutboundDone()) {
                             return false;
                         }
@@ -66,14 +67,20 @@ public abstract class NioSslPeer {
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
                     }
+
+                    if(read == 0) {
+                        peerNetData.compact();
+                        continue;
+                    }
+
                     peerNetData.flip();
                     try {
                         result = engine.unwrap(peerNetData, peerAppData);
-                        peerNetData.compact();
                         handshakeStatus = result.getHandshakeStatus();
+                        DemoLog.INSTANCE.d(TAG,"NEED_UNWRAP... peerNetData=" + peerNetData + "; peerAppData=" + peerAppData);
+                        DemoLog.INSTANCE.d(TAG,"NEED_UNWRAP... result=" + result);
 
-                        DemoLog.INSTANCE.d(TAG,"handshake... NEED_UNWRAP result=" + result);
-
+                        peerNetData.compact();
                     } catch (SSLException sslException) {
                         DemoLog.INSTANCE.d(TAG,"A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
                         engine.closeOutbound();
@@ -105,12 +112,13 @@ public abstract class NioSslPeer {
                     break;
                 case NEED_WRAP:
                     myNetData.clear();
+
                     try {
                         result = engine.wrap(myAppData, myNetData);
                         handshakeStatus = result.getHandshakeStatus();
 
-                        DemoLog.INSTANCE.d(TAG,"handshake... NEED_WRAP result=" + result);
-
+                        DemoLog.INSTANCE.d(TAG,"NEED_WRAP... myNetData=" + myNetData + "; myAppData=" + myAppData);
+                        DemoLog.INSTANCE.d(TAG,"NEED_WRAP... result=" + result);
                     } catch (SSLException sslException) {
                         DemoLog.INSTANCE.d(TAG,"A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
                         engine.closeOutbound();
@@ -163,9 +171,11 @@ public abstract class NioSslPeer {
                 default:
                     throw new IllegalStateException("Invalid SSL status: " + handshakeStatus);
             }
+
+            DemoLog.INSTANCE.d(TAG,"About to do handshake while handshakeStatus=" + handshakeStatus);
         }
 
-        DemoLog.INSTANCE.d(TAG,"About to do handshake finish.... ");
+        DemoLog.INSTANCE.d(TAG,"About to do handshake finish.... " + handshakeStatus);
 
         return true;
     }
@@ -213,9 +223,12 @@ public abstract class NioSslPeer {
         closeConnection(socketChannel, engine);
     }
 
-    protected KeyManager[] createKeyManagers(String filepath, String keystorePassword, String keyPassword) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("JKS");
-        InputStream keyStoreIS = new FileInputStream(filepath);
+    protected KeyManager[] createKeyManagers(Context context, String assetsName, String keystorePassword, String keyPassword) throws Exception {
+        AssetManager am = context.getAssets();
+
+        //KeyStore.getInstance("JKS");
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        InputStream keyStoreIS = am.open(assetsName);
         try {
             keyStore.load(keyStoreIS, keystorePassword.toCharArray());
         } finally {

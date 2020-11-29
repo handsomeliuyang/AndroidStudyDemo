@@ -1,5 +1,7 @@
 package com.ly.studydemo.nio.ssl;
 
+import android.content.Context;
+
 import com.ly.studydemo.utils.DemoLog;
 
 import java.io.IOException;
@@ -24,25 +26,25 @@ public class NioSslClient extends NioSslPeer {
     private SSLEngine engine;
     private SocketChannel socketChannel;
 
-    public NioSslClient(String protocol, String remoteAddress, int port) throws Exception {
+    public NioSslClient(Context context, String protocol, String remoteAddress, int port) throws Exception {
 
         this.remoteAddress = remoteAddress;
         this.port = port;
 
-        SSLContext context = SSLContext.getInstance(protocol);
-        // TODO-ly
-        context.init(null, null, null);
-//        context.init(createKeyManagersyManagers("./src/main/resources/client.jks", "storepass", "keypass"),
-//                createTrustManagers("./src/main/resources/trustedCerts.jks", "storepass"),
+        SSLContext sslContext = SSLContext.getInstance(protocol);
+        sslContext.init(null, null, null);
+//        sslContext.init(createKeyManagers(context, "client.jks", "storepass", "keypass"),
+//                null,
 //                new SecureRandom());
-        engine = context.createSSLEngine(remoteAddress, port);
+        engine = sslContext.createSSLEngine(remoteAddress, port);
         engine.setUseClientMode(true);
 
         SSLSession session = engine.getSession();
         myAppData = ByteBuffer.allocate(1024);
         myNetData = ByteBuffer.allocate(session.getPacketBufferSize());
         peerAppData = ByteBuffer.allocate(1024);
-        peerNetData = ByteBuffer.allocate(session.getPacketBufferSize());
+        // 扩大内存，解决读数据失败问题
+        peerNetData = ByteBuffer.allocate(session.getPacketBufferSize()*2);
 
     }
 
