@@ -26,6 +26,8 @@ public abstract class NioSslPeer {
 
     private final String TAG = this.getClass().getSimpleName();
 
+    public static final int BUFFER_SIZE = 2560;
+
     protected ByteBuffer myAppData;
     protected ByteBuffer myNetData;
     protected ByteBuffer peerAppData;
@@ -227,6 +229,7 @@ public abstract class NioSslPeer {
         AssetManager am = context.getAssets();
 
         //KeyStore.getInstance("JKS");
+        DemoLog.INSTANCE.d(TAG, "keystore type: " + KeyStore.getDefaultType());
         KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
         InputStream keyStoreIS = am.open(assetsName);
         try {
@@ -235,7 +238,7 @@ public abstract class NioSslPeer {
             if (keyStoreIS != null) {
                 keyStoreIS.close();
             }
-        }
+            }
         KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(keyStore, keyPassword.toCharArray());
         return kmf.getKeyManagers();

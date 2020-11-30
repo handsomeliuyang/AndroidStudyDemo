@@ -32,19 +32,20 @@ public class NioSslClient extends NioSslPeer {
         this.port = port;
 
         SSLContext sslContext = SSLContext.getInstance(protocol);
-        sslContext.init(null, null, null);
-//        sslContext.init(createKeyManagers(context, "client.jks", "storepass", "keypass"),
-//                null,
-//                new SecureRandom());
+//        sslContext.init(null, null, null);
+        sslContext.init(createKeyManagers(context, "client.bks", "storepass", "keypass"),
+                null,
+                new SecureRandom());
         engine = sslContext.createSSLEngine(remoteAddress, port);
         engine.setUseClientMode(true);
 
         SSLSession session = engine.getSession();
-        myAppData = ByteBuffer.allocate(1024);
-        myNetData = ByteBuffer.allocate(session.getPacketBufferSize());
-        peerAppData = ByteBuffer.allocate(1024);
+        myAppData = ByteBuffer.allocate(BUFFER_SIZE);
+        myNetData = ByteBuffer.allocate(BUFFER_SIZE);
+
+        peerAppData = ByteBuffer.allocate(BUFFER_SIZE);
         // 扩大内存，解决读数据失败问题
-        peerNetData = ByteBuffer.allocate(session.getPacketBufferSize()*2);
+        peerNetData = ByteBuffer.allocate(BUFFER_SIZE*2);
 
     }
 
@@ -114,22 +115,32 @@ public class NioSslClient extends NioSslPeer {
         boolean exitReadLoop = false;
         while (!exitReadLoop) {
             int bytesRead = socketChannel.read(peerNetData);
+
+            DemoLog.INSTANCE.d(TAG,"read data bytesRead=" + bytesRead);
+
             if (bytesRead > 0) {
                 peerNetData.flip();
                 while (peerNetData.hasRemaining()) {
+                    DemoLog.INSTANCE.d(TAG,"peerNetData hasRemaining " + peerNetData);
+
                     peerAppData.clear();
                     SSLEngineResult result = engine.unwrap(peerNetData, peerAppData);
+
+                    DemoLog.INSTANCE.d(TAG,"engine.unwrap result " + result);
+                    DemoLog.INSTANCE.d(TAG, "unwrap after peerNetData=" + peerNetData + "; peerAppData=" + peerAppData);
+
                     switch (result.getStatus()) {
                         case OK:
                             peerAppData.flip();
                             DemoLog.INSTANCE.d(TAG, "Server response: " + new String(peerAppData.array()));
                             exitReadLoop = true;
+                            DemoLog.INSTANCE.d(TAG, "Server response: success exitReadLoop=true ");
                             break;
                         case BUFFER_OVERFLOW:
                             peerAppData = enlargeApplicationBuffer(engine, peerAppData);
                             break;
                         case BUFFER_UNDERFLOW:
-                            peerNetData = handleBufferUnderflow(engine, peerNetData);
+//                            peerNetData = handleBufferUnderflow(engine, peerNetData);
                             break;
                         case CLOSED:
                             closeConnection(socketChannel, engine);

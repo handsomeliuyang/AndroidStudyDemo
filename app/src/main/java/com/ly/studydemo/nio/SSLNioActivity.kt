@@ -47,7 +47,7 @@ class SSLNioActivity : AppCompatActivity(), View.OnClickListener {
     private fun startNioSSL() {
         Thread(Runnable {
 
-            val host = "bj.58.com"//"www.baidu.com"
+            val host = "www.baidu.com"
             val path = "/"
 
             val client = NioSslClient(this,"TLSv1.2", host, 443)
