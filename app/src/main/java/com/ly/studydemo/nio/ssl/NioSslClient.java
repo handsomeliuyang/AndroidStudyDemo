@@ -10,12 +10,16 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLEngineResult;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class NioSslClient extends NioSslPeer {
 
@@ -33,8 +37,27 @@ public class NioSslClient extends NioSslPeer {
 
         SSLContext sslContext = SSLContext.getInstance(protocol);
 //        sslContext.init(null, null, null);
-        sslContext.init(createKeyManagers(context, "client.bks", "storepass", "keypass"),
-                null,
+//        sslContext.init(createKeyManagers(context, "client.bks", "storepass", "keypass"),
+//                null,
+//                new SecureRandom());
+        // 客户端不验证证书，信任所有的证书
+        sslContext.init(null,
+                new TrustManager[]{new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        //
+                    }
+
+                    @Override
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                        //
+                    }
+
+                    @Override
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                }},
                 new SecureRandom());
         engine = sslContext.createSSLEngine(remoteAddress, port);
         engine.setUseClientMode(true);
@@ -134,7 +157,6 @@ public class NioSslClient extends NioSslPeer {
                             peerAppData.flip();
                             DemoLog.INSTANCE.d(TAG, "Server response: " + new String(peerAppData.array()));
                             exitReadLoop = true;
-                            DemoLog.INSTANCE.d(TAG, "Server response: success exitReadLoop=true ");
                             break;
                         case BUFFER_OVERFLOW:
                             peerAppData = enlargeApplicationBuffer(engine, peerAppData);

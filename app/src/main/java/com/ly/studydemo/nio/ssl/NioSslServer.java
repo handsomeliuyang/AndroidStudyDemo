@@ -34,10 +34,10 @@ public class NioSslServer extends NioSslPeer {
     public NioSslServer(Context androidContext, String protocol, String hostAddress, int port) throws Exception {
 
         context = SSLContext.getInstance(protocol);
-        context.init(null, null, null);
-//        context.init(createKeyManagers(androidContext, "server.jks", "storepass", "keypass"),
-//                null,
-//                new SecureRandom());
+//        context.init(null, null, null);
+        context.init(createKeyManagers(androidContext, "client.bks", "storepass", "keypass"),
+                null,
+                new SecureRandom());
 
         SSLSession dummySession = context.createSSLEngine().getSession();
         myAppData = ByteBuffer.allocate(dummySession.getApplicationBufferSize());

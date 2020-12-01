@@ -15,7 +15,6 @@ class SSLNioActivity : AppCompatActivity(), View.OnClickListener {
     private var mTextView: TextView? = null
     private var mNioSslServer: NioSslServer? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sslnio)
@@ -50,26 +49,26 @@ class SSLNioActivity : AppCompatActivity(), View.OnClickListener {
             val host = "www.baidu.com"
             val path = "/"
 
-            val client = NioSslClient(this,"TLSv1.2", host, 443)
-            client.connect()
-
-            val request = "GET ${path} HTTP/1.1\r\n" + // 请求行
-                "Accept: */*\r\n" + // 请求头
-                "Host: ${host}\r\n" + // 请求头
-                "Connection: Close\r\n" + // 请求头
-                "\r\n" // 空行
-
-            client.write(request)
-            client.read()
-            client.shutdown()
-
-//            val client = NioSslClient("TLS", "localhost", 9222)
+//            val client = NioSslClient(this,"TLSv1.2", host, 443)
 //            client.connect()
-//            client.write("Hello! I am a client!")
+//
+//            val request = "GET ${path} HTTP/1.1\r\n" + // 请求行
+//                "Accept: */*\r\n" + // 请求头
+//                "Host: ${host}\r\n" + // 请求头
+//                "Connection: Close\r\n" + // 请求头
+//                "\r\n" // 空行
+//
+//            client.write(request)
 //            client.read()
 //            client.shutdown()
 
-//            mNioSslServer?.stop()
+            val client = NioSslClient(this,"TLSv1.2", "localhost", 9222)
+            client.connect()
+            client.write("Hello! I am a client!")
+            client.read()
+            client.shutdown()
+
+            mNioSslServer?.stop()
         }).start()
     }
 

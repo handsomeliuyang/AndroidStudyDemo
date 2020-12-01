@@ -84,7 +84,7 @@ public abstract class NioSslPeer {
 
                         peerNetData.compact();
                     } catch (SSLException sslException) {
-                        DemoLog.INSTANCE.d(TAG,"A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
+                        DemoLog.INSTANCE.e(TAG,"NEED_UNWRAP A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...", sslException);
                         engine.closeOutbound();
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
@@ -122,7 +122,7 @@ public abstract class NioSslPeer {
                         DemoLog.INSTANCE.d(TAG,"NEED_WRAP... myNetData=" + myNetData + "; myAppData=" + myAppData);
                         DemoLog.INSTANCE.d(TAG,"NEED_WRAP... result=" + result);
                     } catch (SSLException sslException) {
-                        DemoLog.INSTANCE.d(TAG,"A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...");
+                        DemoLog.INSTANCE.e(TAG,"NEED_WRAP A problem was encountered while processing the data that caused the SSLEngine to abort. Will try to properly close connection...", sslException);
                         engine.closeOutbound();
                         handshakeStatus = engine.getHandshakeStatus();
                         break;
