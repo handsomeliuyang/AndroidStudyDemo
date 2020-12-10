@@ -8,10 +8,17 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
@@ -35,30 +42,13 @@ public class NioSslClient extends NioSslPeer {
         this.remoteAddress = remoteAddress;
         this.port = port;
 
+        final KeyStore ks = loadKeyStore(context, "client.bks", "storepass");
+
         SSLContext sslContext = SSLContext.getInstance(protocol);
-//        sslContext.init(null, null, null);
-//        sslContext.init(createKeyManagers(context, "client.bks", "storepass", "keypass"),
-//                null,
-//                new SecureRandom());
-        // 客户端不验证证书，信任所有的证书
         sslContext.init(null,
-                new TrustManager[]{new X509TrustManager() {
-                    @Override
-                    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                        //
-                    }
+                createTrustManagers(context, "trustwuba.bks", "123456"),
+                null);
 
-                    @Override
-                    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                        //
-                    }
-
-                    @Override
-                    public X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-                }},
-                new SecureRandom());
         engine = sslContext.createSSLEngine(remoteAddress, port);
         engine.setUseClientMode(true);
 

@@ -83,6 +83,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".tcpip.CertificateActivity"
+            android:label="TCP IP/证书生成">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".nio.SSLNioActivity"
             android:label="Java NIO/https请求">
             <intent-filter>
@@ -90,6 +98,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+
 
         <provider
             android:name=".ipsbus.BinderProvider"

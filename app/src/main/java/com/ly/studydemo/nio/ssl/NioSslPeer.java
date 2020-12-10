@@ -244,9 +244,28 @@ public abstract class NioSslPeer {
         return kmf.getKeyManagers();
     }
 
-    protected TrustManager[] createTrustManagers(String filepath, String keystorePassword) throws Exception {
-        KeyStore trustStore = KeyStore.getInstance("JKS");
-        InputStream trustStoreIS = new FileInputStream(filepath);
+
+    protected KeyStore loadKeyStore(Context context, String assetsName, String keystorePassword) throws Exception {
+        AssetManager am = context.getAssets();
+
+        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        InputStream trustStoreIS = am.open(assetsName);
+        try {
+            trustStore.load(trustStoreIS, keystorePassword.toCharArray());
+        } finally {
+            if (trustStoreIS != null) {
+                trustStoreIS.close();
+            }
+        }
+        return trustStore;
+    }
+
+
+    protected TrustManager[] createTrustManagers(Context context, String assetsName, String keystorePassword) throws Exception {
+        AssetManager am = context.getAssets();
+
+        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        InputStream trustStoreIS = am.open(assetsName);
         try {
             trustStore.load(trustStoreIS, keystorePassword.toCharArray());
         } finally {
@@ -256,6 +275,8 @@ public abstract class NioSslPeer {
         }
         TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         trustFactory.init(trustStore);
-        return trustFactory.getTrustManagers();
+        TrustManager[] trustManagers = trustFactory.getTrustManagers();
+        DemoLog.INSTANCE.d(TAG, "xxxxx createTrustManagers " + trustManagers);
+        return trustManagers;
     }
 }
