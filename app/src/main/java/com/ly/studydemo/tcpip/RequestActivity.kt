@@ -111,6 +111,6 @@ interface ApiService {
     @GET("http://news.58.com/api/windex/getconsultdetail")
     fun http(): Call<String>
 
-    @GET("https://bj.58.com/")
+    @GET("https://xiaozhao.58.com/pc/index")
     fun https(): Call<String>
 }
