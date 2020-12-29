@@ -6,9 +6,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.Request
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.ly.studydemo.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -84,26 +81,6 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
                 }
             })
     }
-
-//    private fun startHttpOnVolley(){
-//        // Instantiate the RequestQueue.
-//        val queue = Volley.newRequestQueue(this)
-//        val url = "http://news.58.com/api/windex/getconsultdetail"
-//
-//        // Request a string response from the provided URL.
-//        val stringRequest = StringRequest(
-//            Request.Method.GET, url,
-//            com.android.volley.Response.Listener<String> { response ->
-//                contentText?.text = "https请求成功：\n ${response.toString()}"
-//            },
-//            com.android.volley.Response.ErrorListener {t ->
-//                contentText?.text = "https 请求失败：\n" +
-//                        "Failure=${t?.toString()}"
-//            })
-//
-//        // Add the request to the RequestQueue.
-//        queue.add(stringRequest)
-//    }
 
 }
 
