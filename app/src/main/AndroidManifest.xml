@@ -77,7 +77,7 @@
         </activity>
         <activity
             android:name=".tcpip.RequestActivity"
-            android:label="TCP IP/请求Demo">
+            android:label="Http Https/Http与Https请求">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
@@ -85,7 +85,7 @@
         </activity>
         <activity
             android:name=".tcpip.CertificateActivity"
-            android:label="TCP IP/证书生成">
+            android:label="Http Https/SSL证书生成">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />

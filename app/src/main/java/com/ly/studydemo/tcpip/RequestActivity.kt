@@ -1,12 +1,17 @@
 package com.ly.studydemo.tcpip
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.ly.studydemo.R
+import com.ly.studydemo.utils.DemoLog
+import okhttp3.Dns
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,7 +20,15 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.Url
-import java.util.concurrent.*
+import java.net.InetAddress
+import java.security.KeyStore
+import java.security.cert.X509Certificate
+import java.util.*
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadFactory
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.*
 
 
 class RequestActivity : AppCompatActivity(), View.OnClickListener {
@@ -41,34 +54,83 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
             }
         )
 
+        val trustManager = MergeTrustManager(null)//createTrustManager()
+        val okHttpClient = OkHttpClient.Builder()
+            .sslSocketFactory(createSslSocketFactory(trustManager), trustManager)
+            .dns(object: Dns {
+                override fun lookup(hostname: String): MutableList<InetAddress> {
+                    if (hostname.endsWith("wubacom.com")
+                        or hostname.endsWith("wuba.com")) {
+                        return Arrays.asList(InetAddress.getByName("10.252.214.142"))
+                    }
+                    return Dns.SYSTEM.lookup(hostname)
+                }
+            })
+            .build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl("http://www.58.com")
+            .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
 
-        findViewById<Button>(R.id.start_http_btn).setOnClickListener(this)
-        findViewById<Button>(R.id.start_https_btn).setOnClickListener(this)
+        findViewById<Button>(R.id.startReqBtn).setOnClickListener(this)
+        findViewById<Button>(R.id.startReqBatch).setOnClickListener(this)
         contentText = findViewById<TextView>(R.id.content_view)
+    }
+
+    private fun createTrustManager(): X509TrustManager {
+        val keyStore = loadKeyStore(
+            this,
+            "truststore.bks",
+//            "truststore_2.bks",
+            "123456"
+        )
+
+        val tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+        tmf.init(keyStore)
+        for(tm in tmf.trustManagers){
+            if (tm is X509TrustManager) {
+                return tm as X509TrustManager
+            }
+        }
+        throw IllegalStateException("Missed X509TrustManager in ${tmf.trustManagers}")
+//        return MergeTrustManager(keyStore)
+    }
+
+    private fun loadKeyStore(context: Context, assetsName: String, keystorePassword: String): KeyStore? {
+        val am: AssetManager = context.assets
+        val trustStore = KeyStore.getInstance("BKS")
+        am.open(assetsName).use {
+            trustStore.load(it, keystorePassword.toCharArray())
+            return trustStore
+        }
+    }
+
+    private fun createSslSocketFactory(trustManager: X509TrustManager): SSLSocketFactory {
+        val sslContext = SSLContext.getInstance("TLS")
+        sslContext.init(null, arrayOf<TrustManager>(trustManager), null)
+        return sslContext.socketFactory
     }
 
     override fun onClick(v: View?) {
         when(v?.id){
-            R.id.start_http_btn -> startHttpRequest()
-            R.id.start_https_btn -> startHttpsRequest()
+            R.id.startReqBtn -> startReqOnce()
+            R.id.startReqBatch -> startReqBatch()
         }
     }
 
-    private fun startHttpsRequest() {
+    private fun startReqBatch() {
         contentText?.text = "批量做Https请求：\n"
 
         val urls = arrayOf(
-//            "https://app.58.com/api/home/operate/rightop", // 1
+//            "https://app.58.com/api/home/operate/rightop" // 1
+            "https://pic7.58cdn.com.cn/m1/bigimage/n_v2a6078c18b0494ee9864f0864cac9c4d9.jpg"
 //            "https://app.58.com/api/home/app/newindexinfoV2/?os=android&data=3E44B4D856CBC69DBBA2D00DBDBB840ADE30376E1929C36E2AE955CDE796380C9E180229D97F7E004F49664FD3636F0F76B85F213B73DAEB37B9941311BBBE2E&city=bj&cversion=10.10.0&key=455A91B20E6D42C66CE82049E844C607DDD92BE483948780018A53F818B780F3C2E113CCF05E83E52F2E128C2F9FDCA217F7771475A94C3C33115DEDE23A1D66C71EC08A2036BB7B0953525E9DA19112E215483EBC6E62ECA7FF2DD27859DDE0DE182BDCA9308050356B841463DEA181820F9A37E43925CDA2A1F9B6CC8FF04CEFD181EA85819F64CBC54B863F44D2E8BDCD5FC1084BCD2BF0B3AF67E755B785BA47C4308D638E2FBC598A2D24B0B28E7634088BAE95A7F2E0160034D55ACAA3318EC2ED3D4D70D2E8B15130E6096E8DFB5C808A355BDC3D87C31DF2BA697D523CE5271DA51F2EFE03E5B96FDC852CC766F3BF64D5DDD24AC3F9F1E289BD5AC4",
 //            "https://app.58.com/api/home/operate/maindata?city=bj", // 3
 //            "https://app.58.com/api/home/discovery/reddot/tab", // 4
 //            "https://pic5.58cdn.com.cn/m1/bigimage/n_v25fe2e2d3d1df4c958f3f46281b9db8d3.jpg", // 5
-            "https://pic7.58cdn.com.cn/m1/bigimage/n_v2a6078c18b0494ee9864f0864cac9c4d9.jpg"
 //            "https://app.58.com/api/base/hotupdate/getresource?commver=9&ver=1742&bundleid=166&appversion=10.10.0&appshort=5857",
 //            "https://pic3.58cdn.com.cn/m1/bigimage/n_v21939c04384204fa094c6098e41b6dbf1.jpg", // 8
 //            "https://pic3.58cdn.com.cn/nowater/tribenowatermark/n_v2a81b841f50e44a0897998bcb433bb83e.png",
@@ -161,7 +223,7 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
         urls.forEachIndexed { index, url ->
             // 通过线程执行
             executor?.execute {
-                val call = apiService?.https(url, headers)
+                val call = apiService?.reqBatch(url, headers)
                 call?.enqueue(object : Callback<String> {
                     @SuppressLint("SetTextI18n")
                     override fun onFailure(call: Call<String>?, t: Throwable?) {
@@ -183,8 +245,11 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun startHttpRequest() {
-        val call = apiService?.http() ?: return
+    private fun startReqOnce() {
+//        val httpUrl = "http://news.58.com/api/windex/getconsultdetail"
+        val httpsUrl = "https://wubacom.com:4450"
+
+        val call = apiService?.reqOnce(httpsUrl) ?: return
 
         contentText?.text = "http 请求中..."
 
@@ -210,9 +275,9 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
 }
 
 interface ApiService {
-    @GET("http://news.58.com/api/windex/getconsultdetail")
-    fun http(): Call<String>
+    @GET
+    fun reqOnce(@Url url: String): Call<String>
 
     @GET
-    fun https(@Url url: String, @HeaderMap headers:Map<String, String>): Call<String>
+    fun reqBatch(@Url url: String, @HeaderMap headers:Map<String, String>): Call<String>
 }
