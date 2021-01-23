@@ -70,7 +70,7 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://www.58.com")
-            .client(okHttpClient)
+//            .client(okHttpClient)
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         apiService = retrofit.create(ApiService::class.java)
@@ -246,10 +246,10 @@ class RequestActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun startReqOnce() {
-//        val httpUrl = "http://news.58.com/api/windex/getconsultdetail"
-        val httpsUrl = "https://wubacom.com:4450"
+        val httpUrl = "http://news.58.com/api/windex/getconsultdetail"
+//        val httpsUrl = "https://wubacom.com:4450"
 
-        val call = apiService?.reqOnce(httpsUrl) ?: return
+        val call = apiService?.reqOnce(httpUrl) ?: return
 
         contentText?.text = "http 请求中..."
 

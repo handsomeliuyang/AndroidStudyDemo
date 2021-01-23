@@ -54,4 +54,6 @@ dependencies {
 //    implementation files('libs/android-sun-jarsign-support-1.1.jar')
     implementation 'org.bouncycastle:bcprov-jdk15on:1.54'
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.54'
+
+    implementation project(":mvvmlib")
 }
