@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="adapter"
+            type="com.ly.lib.mvvm.ui.main.MainAdapter" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -34,22 +36,23 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scrollView_main_list"
+        android:background="@drawable/logo"/>
 
-<!--    app:layout_constraintBottom_toTopOf="@id/scrollView_main_list"-->
-
-<!--    <com.yarolegovich.discretescrollview.DiscreteScrollView-->
-<!--        android:id="@+id/scrollView_main_list"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="24dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/imageView_main_logo"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        bind:adapter="@{adapter}"-->
-<!--        bind:transformer="@{true}"-->
-<!--        tools:listitem="@layout/item_house"/>-->
+    <com.yarolegovich.discretescrollview.DiscreteScrollView
+        android:id="@+id/scrollView_main_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView_main_logo"
+        tools:listitem="@layout/item_house"
+        bind:adapter="@{adapter}"
+        bind:transformer="@{true}"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
