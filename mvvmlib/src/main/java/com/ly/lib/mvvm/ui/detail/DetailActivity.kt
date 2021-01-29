@@ -5,8 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.databinding.BindingBuildInfo
+import androidx.databinding.DataBindingUtil
 import com.ly.lib.mvvm.R
+import com.ly.lib.mvvm.databinding.ActivityDetailBinding
 import com.ly.lib.mvvm.ui.HouseType
 
 class DetailActivity : AppCompatActivity() {
@@ -20,17 +25,26 @@ class DetailActivity : AppCompatActivity() {
         ){
             val intent = Intent(activity, DetailActivity::class.java)
             intent.putExtra(KEY_HOUSE, type)
-            // TODO 添加过渡动画到详情页
-//            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                activity, imageView, imageView.transitionName
-//            )
-//            activity.startActivity(intent, options.toBundle())
-            activity.startActivity(intent)
+
+            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity, imageView, imageView.transitionName
+            ).toBundle()
+            activity.startActivity(intent, bundle)
         }
+    }
+
+    private val binding: ActivityDetailBinding by lazy {
+        DataBindingUtil.setContentView<ActivityDetailBinding>(this, R.layout.activity_detail)
+    }
+    private val house: HouseType by lazy {
+        this.intent.getSerializableExtra(KEY_HOUSE) as HouseType
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding.apply {
+            house = this@DetailActivity.house
+            lifecycleOwner = this@DetailActivity
+        }
     }
 }
