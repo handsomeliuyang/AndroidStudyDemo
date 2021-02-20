@@ -5,14 +5,19 @@
     <application>
         <activity
             android:name=".ui.main.MainActivity"
-            android:label="MVVM">
+            android:label="MVVM"
+            android:screenOrientation="portrait"
+            android:theme="@style/MVVMTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.detail.DetailActivity" />
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MVVMTheme"/>
 
     </application>
 </manifest>
