@@ -6,7 +6,7 @@
     <data>
         <variable
             name="character"
-            type="com.ly.lib.mvvm.model.Character" />
+            type="com.ly.lib.mvvm.domain.entity.Character" />
         <variable
             name="type"
             type="com.ly.lib.mvvm.ui.HouseType" />

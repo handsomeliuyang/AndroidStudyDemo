@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ly.lib.mvvm.R
 import com.ly.lib.mvvm.databinding.ItemCharacterBinding
-import com.ly.lib.mvvm.model.Character
+import com.ly.lib.mvvm.domain.entity.Character
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 

@@ -1,6 +1,6 @@
-package com.ly.lib.mvvm.data.impl
+package com.ly.lib.mvvm.dataimpl
 
-import com.ly.lib.mvvm.model.Character
+import com.ly.lib.mvvm.domain.entity.Character
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -30,7 +30,8 @@ object NetworkModule {
             .build()
     }
 
-    val service: HarryPotterService by lazy { retrofit.create(HarryPotterService::class.java) }
+    val service: HarryPotterService by lazy { retrofit.create(
+        HarryPotterService::class.java) }
 }
 
 interface HarryPotterService {

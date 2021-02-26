@@ -1,4 +1,4 @@
-package com.ly.lib.mvvm.model
+package com.ly.lib.mvvm.domain.entity
 
 data class Character (
     val name: String,

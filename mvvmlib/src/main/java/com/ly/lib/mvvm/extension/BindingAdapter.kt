@@ -4,7 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ly.lib.mvvm.model.Character
+import com.ly.lib.mvvm.domain.entity.Character
 import com.ly.lib.mvvm.ui.SpaceItemDecoration
 import com.ly.lib.mvvm.ui.detail.DetailAdapter
 import com.yarolegovich.discretescrollview.DiscreteScrollView
