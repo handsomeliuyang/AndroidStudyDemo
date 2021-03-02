@@ -1,5 +1,6 @@
 package com.ly.lib.mvvm.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ly.lib.mvvm.domain.Result
@@ -12,8 +13,11 @@ import io.reactivex.schedulers.Schedulers
 class DetailViewModel(private val house: HouseType, private val characterUseCase: CharacterUseCase) : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     val characterList : MutableLiveData<List<Character>> = MutableLiveData<List<Character>>()
+    val isUpdating = MutableLiveData<Boolean>()
 
     fun loadCharacterList() {
+        Log.d("liuyang", "loadCharacterList")
+
         isLoading.postValue(true)
         val subscription = characterUseCase.execute(CharacterUseCase.RequestValues(house.name))
             .subscribeOn(Schedulers.io())
@@ -24,13 +28,13 @@ class DetailViewModel(private val house: HouseType, private val characterUseCase
                     is Result.Error -> characterList.value = emptyList()
                 }
                 isLoading.value = false
-            }
 
-        // 创建子线程，或者子协程
-//        Thread(Runnable {
-//            isLoading.postValue(true)
-//            characterList.postValue(source.getCharacters(house.name))
-//            isLoading.postValue(false)
-//        }).start()
+                Log.d("liuyang", it.toString())
+            }
+    }
+
+    fun updateCharacterList(){
+        isUpdating.postValue(true)
+//        val subscription = characterU
     }
 }

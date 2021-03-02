@@ -1,5 +1,6 @@
 package com.ly.lib.mvvm.dataimpl
 
+import android.util.Log
 import com.ly.lib.mvvm.domain.data.CharacterDataSource
 import com.ly.lib.mvvm.domain.*
 import com.ly.lib.mvvm.domain.entity.Character
@@ -18,16 +19,16 @@ class CharacterRepository(
     private fun getRemoteCharacters(type: String): Observable<Result<List<Character>>> {
         return remoteDataSource.getCharacters(type)
             .concatMap { it.toDataObservable() } // 只获取成功的结果，错误结果直接报出来
-            .doOnNext { localDataSource.saveCharacters(it) } // 缓存数据，不管是否成功
+            .doOnNext {
+                Log.d("liuyang", "save data to local ${it}")
+                localDataSource.saveCharacters(it)
+            } // 缓存数据，不管是否成功
             .map<Result<List<Character>>> { it.toResult() } // 包装结果返回
             .onErrorReturn { it.toErrorResult() } // 包装错误返回
     }
 
     companion object {
-        private var INSTANCE: CharacterRepository? = null
-        fun getInstance():CharacterRepository {
-            return INSTANCE ?: CharacterRepository(LocalCharacterDataSource(), RemoteCharacterDataSource())
-        }
+        val INSTANCE: CharacterRepository by lazy { CharacterRepository(LocalCharacterDataSource(), RemoteCharacterDataSource()) }
     }
 
 }

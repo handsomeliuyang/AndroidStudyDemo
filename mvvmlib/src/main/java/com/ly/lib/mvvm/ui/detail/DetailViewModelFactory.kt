@@ -10,7 +10,7 @@ class DetailViewModelFactory(private val houseType: HouseType) : ViewModelProvid
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(houseType, CharacterUseCase(CharacterRepository.getInstance())) as T
+            return DetailViewModel(houseType, CharacterUseCase(CharacterRepository.INSTANCE)) as T
         }
         throw RuntimeException("unknown class :" + modelClass.name)
     }

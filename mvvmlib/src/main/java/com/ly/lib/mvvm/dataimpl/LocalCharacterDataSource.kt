@@ -1,5 +1,6 @@
 package com.ly.lib.mvvm.dataimpl
 
+import android.util.Log
 import com.ly.lib.mvvm.domain.data.CharacterDataSource
 import com.ly.lib.mvvm.domain.Result
 import com.ly.lib.mvvm.domain.toErrorResult
@@ -9,11 +10,11 @@ import io.reactivex.Observable
 
 class LocalCharacterDataSource : CharacterDataSource {
 
-    private var data: List<Character> = emptyList()
+    private var data: MutableList<Character> = mutableListOf()
 
     override fun getCharacters(type: String): Observable<Result<List<Character>>> {
         return Observable.create<List<Character>> { emitter ->
-                if (data.size >= 0) {
+                if (data.size > 0) {
                     emitter.onNext(data)
                 }
                 emitter.onComplete()
@@ -23,7 +24,7 @@ class LocalCharacterDataSource : CharacterDataSource {
     }
 
     fun saveCharacters(list: List<Character>) {
-        data = list
+        data.clear()
+        data.addAll(list)
     }
-
 }
