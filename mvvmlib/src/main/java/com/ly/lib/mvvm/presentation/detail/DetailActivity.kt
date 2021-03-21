@@ -1,4 +1,4 @@
-package com.ly.lib.mvvm.ui.detail
+package com.ly.lib.mvvm.presentation.detail
 
 import android.app.Activity
 import android.content.Intent
@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ly.lib.mvvm.R
 import com.ly.lib.mvvm.databinding.ActivityDetailBinding
-import com.ly.lib.mvvm.ui.HouseType
+import com.ly.lib.mvvm.presentation.HouseType
 
 class DetailActivity : AppCompatActivity() {
 

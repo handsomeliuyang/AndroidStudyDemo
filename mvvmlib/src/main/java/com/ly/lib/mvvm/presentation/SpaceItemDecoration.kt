@@ -1,4 +1,4 @@
-package com.ly.lib.mvvm.ui
+package com.ly.lib.mvvm.presentation
 
 import android.graphics.Rect
 import android.view.View

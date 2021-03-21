@@ -1,4 +1,4 @@
-package com.ly.lib.mvvm.dataimpl
+package com.ly.lib.mvvm.data.net
 
 import com.ly.lib.mvvm.domain.entity.Character
 import okhttp3.OkHttpClient

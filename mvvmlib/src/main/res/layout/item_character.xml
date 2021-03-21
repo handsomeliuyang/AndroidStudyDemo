@@ -9,7 +9,7 @@
             type="com.ly.lib.mvvm.domain.entity.Character" />
         <variable
             name="type"
-            type="com.ly.lib.mvvm.ui.HouseType" />
+            type="com.ly.lib.mvvm.presentation.HouseType" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

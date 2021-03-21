@@ -1,12 +1,12 @@
-package com.ly.lib.mvvm.extension
+package com.ly.lib.mvvm.presentation.extension
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ly.lib.mvvm.domain.entity.Character
-import com.ly.lib.mvvm.ui.SpaceItemDecoration
-import com.ly.lib.mvvm.ui.detail.DetailAdapter
+import com.ly.lib.mvvm.presentation.SpaceItemDecoration
+import com.ly.lib.mvvm.presentation.detail.DetailAdapter
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 

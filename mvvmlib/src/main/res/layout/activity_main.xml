@@ -7,7 +7,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.ly.lib.mvvm.ui.main.MainAdapter" />
+            type="com.ly.lib.mvvm.presentation.main.MainAdapter" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

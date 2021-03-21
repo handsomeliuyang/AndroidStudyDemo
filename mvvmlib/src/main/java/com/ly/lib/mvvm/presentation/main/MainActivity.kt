@@ -1,12 +1,11 @@
-package com.ly.lib.mvvm.ui.main
+package com.ly.lib.mvvm.presentation.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import com.ly.lib.mvvm.R
 import com.ly.lib.mvvm.databinding.ActivityMainBinding
-import com.ly.lib.mvvm.ui.detail.DetailActivity
+import com.ly.lib.mvvm.presentation.detail.DetailActivity
 
 class MainActivity: AppCompatActivity() {
 

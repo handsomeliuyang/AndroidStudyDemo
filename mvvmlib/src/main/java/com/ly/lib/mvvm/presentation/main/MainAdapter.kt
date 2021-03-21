@@ -1,14 +1,13 @@
-package com.ly.lib.mvvm.ui.main
+package com.ly.lib.mvvm.presentation.main
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.ly.lib.mvvm.R
 import com.ly.lib.mvvm.databinding.ItemHouseBinding
-import com.ly.lib.mvvm.ui.HouseType
+import com.ly.lib.mvvm.presentation.HouseType
 
 class MainAdapter(val action: (ImageView, HouseType) -> Unit) : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 

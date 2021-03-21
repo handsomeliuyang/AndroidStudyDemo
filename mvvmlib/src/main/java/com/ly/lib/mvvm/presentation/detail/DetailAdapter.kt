@@ -1,4 +1,4 @@
-package com.ly.lib.mvvm.ui.detail
+package com.ly.lib.mvvm.presentation.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

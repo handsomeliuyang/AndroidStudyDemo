@@ -1,9 +1,9 @@
-package com.ly.lib.mvvm.dataimpl
+package com.ly.lib.mvvm.data.repository.datasource
 
-import com.ly.lib.mvvm.domain.data.CharacterDataSource
-import com.ly.lib.mvvm.domain.Result
-import com.ly.lib.mvvm.domain.toErrorResult
-import com.ly.lib.mvvm.domain.toResult
+import com.ly.lib.mvvm.data.net.NetworkModule
+import com.ly.lib.mvvm.domain.usecase.Result
+import com.ly.lib.mvvm.domain.usecase.toErrorResult
+import com.ly.lib.mvvm.domain.usecase.toResult
 import com.ly.lib.mvvm.domain.entity.Character
 import io.reactivex.Observable
 

@@ -1,15 +1,20 @@
-package com.ly.lib.mvvm.dataimpl
+package com.ly.lib.mvvm.data.repository
 
 import android.util.Log
-import com.ly.lib.mvvm.domain.data.CharacterDataSource
-import com.ly.lib.mvvm.domain.*
+import com.ly.lib.mvvm.data.repository.datasource.LocalCharacterDataSource
+import com.ly.lib.mvvm.data.repository.datasource.RemoteCharacterDataSource
 import com.ly.lib.mvvm.domain.entity.Character
+import com.ly.lib.mvvm.domain.repository.CharacterRepository
+import com.ly.lib.mvvm.domain.usecase.Result
+import com.ly.lib.mvvm.domain.usecase.toDataObservable
+import com.ly.lib.mvvm.domain.usecase.toErrorResult
+import com.ly.lib.mvvm.domain.usecase.toResult
 import io.reactivex.Observable
 
-class CharacterRepository(
+class CharacterDataRepository(
     private val localDataSource: LocalCharacterDataSource,
     private val remoteDataSource: RemoteCharacterDataSource
-) : CharacterDataSource {
+) : CharacterRepository {
 
     override fun getCharacters(type: String): Observable<Result<List<Character>>> {
         return Observable.concat(localDataSource.getCharacters(type), getRemoteCharacters(type))
@@ -28,7 +33,12 @@ class CharacterRepository(
     }
 
     companion object {
-        val INSTANCE: CharacterRepository by lazy { CharacterRepository(LocalCharacterDataSource(), RemoteCharacterDataSource()) }
+        val INSTANCE: CharacterDataRepository by lazy {
+            CharacterDataRepository(
+                LocalCharacterDataSource(),
+                RemoteCharacterDataSource()
+            )
+        }
     }
 
 }

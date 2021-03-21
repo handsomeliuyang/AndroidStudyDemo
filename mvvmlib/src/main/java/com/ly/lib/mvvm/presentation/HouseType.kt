@@ -1,4 +1,4 @@
-package com.ly.lib.mvvm.ui
+package com.ly.lib.mvvm.presentation
 
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes

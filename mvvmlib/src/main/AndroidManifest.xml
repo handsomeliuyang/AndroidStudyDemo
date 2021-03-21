@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:label="MVVM"
             android:screenOrientation="portrait"
             android:theme="@style/MVVMTheme">
@@ -15,7 +15,7 @@
         </activity>
 
         <activity
-            android:name=".ui.detail.DetailActivity"
+            android:name=".presentation.detail.DetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MVVMTheme"/>
 

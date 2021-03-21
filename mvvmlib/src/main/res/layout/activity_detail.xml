@@ -7,10 +7,10 @@
     <data>
         <variable
             name="house"
-            type="com.ly.lib.mvvm.ui.HouseType" />
+            type="com.ly.lib.mvvm.presentation.HouseType" />
         <variable
             name="viewModel"
-            type="com.ly.lib.mvvm.ui.detail.DetailViewModel" />
+            type="com.ly.lib.mvvm.presentation.detail.DetailViewModel" />
         <import type="android.view.View"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout

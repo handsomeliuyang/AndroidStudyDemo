@@ -7,7 +7,7 @@
 <data>
     <variable
         name="house"
-        type="com.ly.lib.mvvm.ui.HouseType" />
+        type="com.ly.lib.mvvm.presentation.HouseType" />
 </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
